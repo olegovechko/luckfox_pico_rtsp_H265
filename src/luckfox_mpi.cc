@@ -168,15 +168,15 @@ int venc_init(int chnId, int width, int height, RK_CODEC_ID_E enType) {
 	stAttr.stVencAttr.u32VirWidth = (width+15)&(~15);
 	stAttr.stVencAttr.u32VirHeight = (height+15)&(~15);
 	stAttr.stVencAttr.u32StreamBufCnt = 2;
-	stAttr.stVencAttr.u32BufSize = width * height * 3 / 2;
+	stAttr.stVencAttr.u32BufSize = (((width * height x 1.5) + 2047)&(~2047)) * 2;
 	stAttr.stVencAttr.enMirror = MIRROR_NONE;
 
 	stAttr.stRcAttr.enRcMode = VENC_RC_MODE_H265CBR;
 	stAttr.stRcAttr.stH265Cbr.u32BitRate = 2 * 1024;
 	stAttr.stRcAttr.stH265Cbr.u32Gop = 1;
 
-	stAttr.stGopAttr.enGopMode = VENC_GOPMODE_SMARTP;
-	stAttr.stGopAttr.s32VirIdrLen = 32;
+	stAttr.stGopAttr.enGopMode = VENC_GOPMODE_NORMALP;
+	stAttr.stGopAttr.s32VirIdrLen = 1;
 	stAttr.stGopAttr.u32MaxLtrCount = 0;
 	stAttr.stGopAttr.u32TsvcPreload = 0;
 	
