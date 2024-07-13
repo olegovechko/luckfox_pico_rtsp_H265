@@ -172,7 +172,7 @@ int venc_init(int chnId, int width, int height, RK_CODEC_ID_E enType) {
 	stAttr.stVencAttr.enMirror = MIRROR_NONE;
 
 	stAttr.stRcAttr.enRcMode = VENC_RC_MODE_H265CBR;
-	stAttr.stRcAttr.stH265Cbr.u32BitRate = 3 * 1024;
+	stAttr.stRcAttr.stH265Cbr.u32BitRate = 5 * 1024;
 	stAttr.stRcAttr.stH265Cbr.u32Gop = 2;
 
 	//stAttr.stGopAttr.enGopMode = VENC_GOPMODE_NORMALP;
