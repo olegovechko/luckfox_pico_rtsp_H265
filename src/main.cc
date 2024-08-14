@@ -36,8 +36,18 @@ int main(int argc, char *argv[]) {
 	RK_S32 s32Ret = 0; 
 
 	int sX,sY,eX,eY;
-	int width    = 2304;
-    int height   = 1296;
+
+	//int width    = 2304;
+    //int height   = 1296;
+
+	int width    = 1920;
+    int height   = 1200;
+
+	//int width    = 720;
+    //int height   = 480;
+
+	//int width    = 1440;
+    //int height   = 960;
 
 	char fps_text[16];
 	float fps = 0;
@@ -53,7 +63,7 @@ int main(int argc, char *argv[]) {
 	RK_BOOL multi_sensor = RK_FALSE;	
 	const char *iq_dir = "/etc/iqfiles";
 	rk_aiq_working_mode_t hdr_mode = RK_AIQ_WORKING_MODE_NORMAL;
-	//hdr_mode = RK_AIQ_WORKING_MODE_ISP_HDR2;
+	//rk_aiq_working_mode_t hdr_mode = RK_AIQ_WORKING_MODE_ISP_HDR3;
 	SAMPLE_COMM_ISP_Init(0, hdr_mode, multi_sensor, iq_dir);
 	SAMPLE_COMM_ISP_Run(0);
 
@@ -102,12 +112,11 @@ int main(int argc, char *argv[]) {
 	
 	while(1)
 	{	
-		
-
 		// get vpss frame
 		s32Ret = RK_MPI_VPSS_GetChnFrame(0,0, &stVpssFrame,-1);
 		if(s32Ret == RK_SUCCESS)
 		{
+			
 			void *data = RK_MPI_MB_Handle2VirAddr(stVpssFrame.stVFrame.pMbBlk);
 
 			cv::Mat frame(height,width,CV_8UC3, data);	
@@ -116,7 +125,8 @@ int main(int argc, char *argv[]) {
 							cv::Point(40, 40),
 							cv::FONT_HERSHEY_SIMPLEX,1,
 							cv::Scalar(0,255,0),2);
-			memcpy(data, frame.data, width * height * 3);					
+			memcpy(data, frame.data, width * height * 3);
+								
 		}
 
 
