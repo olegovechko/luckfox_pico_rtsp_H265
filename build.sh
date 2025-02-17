@@ -1,6 +1,5 @@
 #!/bin/bash
-
-export LUCKFOX_SDK_PATH=/home/sdk
+export LUCKFOX_SDK_PATH=/home/oleg/luckfox-pico
 mkdir build
 cd build
 cmake ..

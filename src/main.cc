@@ -32,6 +32,21 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+
+int numFpsFrames = 16;	
+float fps[] = {0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0};
+int fpsFrameIdx = 0;
+
+float getFps()
+{
+	float ret = 0;
+	for (int i=0; i<numFpsFrames; i++)
+	{
+		ret += fps[i];
+	}
+	return ret / (float)numFpsFrames;
+}
+
 int main(int argc, char *argv[]) {
 	RK_S32 s32Ret = 0; 
 
@@ -49,8 +64,12 @@ int main(int argc, char *argv[]) {
 	//int width    = 1440;
     //int height   = 960;
 
+	//int width    = 1280;
+    //int height   = 720;
+
 	char fps_text[16];
-	float fps = 0;
+	
+
 	memset(fps_text,0,16);
 
 	//h264_frame	
@@ -120,7 +139,7 @@ int main(int argc, char *argv[]) {
 			void *data = RK_MPI_MB_Handle2VirAddr(stVpssFrame.stVFrame.pMbBlk);
 
 			cv::Mat frame(height,width,CV_8UC3, data);	
-			sprintf(fps_text,"fps = %.2f",fps);		
+			sprintf(fps_text,"fps = %.0f", getFps());		
             cv::putText(frame,fps_text,
 							cv::Point(40, 40),
 							cv::FONT_HERSHEY_SIMPLEX,1,
@@ -146,7 +165,8 @@ int main(int argc, char *argv[]) {
 				rtsp_do_event(g_rtsplive);
 			}
 			RK_U64 nowUs = TEST_COMM_GetNowUs();
-			fps = (float) 1000000 / (float)(nowUs - stVpssFrame.stVFrame.u64PTS);			
+			fps[fpsFrameIdx] = 1000000.f / (float)(nowUs - stVpssFrame.stVFrame.u64PTS);
+			fpsFrameIdx = (fpsFrameIdx + 1) % numFpsFrames;			
 		}
 
 		// release frame 
